@@ -12,7 +12,7 @@ struct Constants{
     
     
     struct Network{
-       static let charactersURL = "https://rickandmortyapi.com/api/character"
+       static let charactersURL = "https://rickandmortyapi.com/api/character?page="
     }
     
 }

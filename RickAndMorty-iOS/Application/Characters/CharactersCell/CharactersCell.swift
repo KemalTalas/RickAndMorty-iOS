@@ -11,7 +11,11 @@ class CharactersCell: UICollectionViewCell {
     
     static let identifier = "CharactersCell"
 
-    @IBOutlet weak var charImage: UIImageView!
+    @IBOutlet weak var charImage: UIImageView!{
+        didSet{
+            charImage.contentMode = .scaleToFill
+        }
+    }
     
     @IBOutlet weak var charLabel: UILabel!
     

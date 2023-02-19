@@ -18,13 +18,19 @@ class CharactersViewModel  {
     var allCharacters : [SingleCharacter] = []
     var exampleName : String = "Boş"
     weak var delegate : CharactersViewModelDelegate?
+    private var pageNumber : Int = 1
     
 //    init(delegate: CharactersViewModelDelegate) {
 //        self.delegate = delegate
 //    }
     
-    func getCharacters(){
-        ApiClient.shared.fetch(urlString: Constants.Network.charactersURL) { (result: Result<AllCharacters, Error>) in
+    func getCharacters(isPagination : Bool){
+        
+        if isPagination{
+            pageNumber += 1
+        }
+        
+        ApiClient.shared.fetch(urlString: "\(Constants.Network.charactersURL)\(pageNumber)") { (result: Result<AllCharacters, Error>) in
             switch result {
             case .success(let allChars):
                 guard let allChars = allChars.results else {return}

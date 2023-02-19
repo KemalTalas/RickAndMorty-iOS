@@ -16,10 +16,7 @@ class CharactersView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.delegate = self
-        viewModel.getCharacters()
-
-        print(viewModel.allCharacters.count)
-        print(viewModel.exampleName)
+        viewModel.getCharacters(isPagination: false)
     }
     
     override func viewDidLoad() {
@@ -54,19 +51,36 @@ extension CharactersView : CharactersViewModelDelegate{
 
 extension CharactersView : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        print("You tapped me!")
+
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "detailsview") as! DetailsView
+        vc.viewModel.singleChar = viewModel.allCharacters[indexPath.row].self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == viewModel.allCharacters.count - 1 {
+            viewModel.getCharacters(isPagination: true)
+        }
+        
     }
 }
 
 extension CharactersView : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return viewModel.allCharacters.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharactersCell.identifier, for: indexPath) as! CharactersCell
         cell.charImage.image = UIImage(named: "empty")
+        cell.charLabel.text = viewModel.allCharacters[indexPath.row].name
+        
+
+        
+        cell.charImage.loadImage(from: viewModel.allCharacters[indexPath.row].image ?? "empty")
+        //cell.charImage.loadImageUsingCache(withUrl: viewModel.allCharacters[indexPath.row].image ?? "empty")
         return cell
     }
     
@@ -77,7 +91,7 @@ extension CharactersView : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 200)
+        return CGSize(width: (collectionView.bounds.width - 30)/2, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -85,6 +99,7 @@ extension CharactersView : UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
+
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -96,4 +111,6 @@ extension CharactersView : UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension UIImageView{
 
+}
