@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailsView: UIViewController {
+    
+    var isCollapsed : Bool = true
 
     @IBOutlet weak var detailImageView: UIImageView!
     @IBOutlet weak var genderLabel: UILabel!
@@ -16,12 +18,13 @@ class DetailsView: UIViewController {
     @IBOutlet weak var originLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var episodesButton: UIButton!
     
     let viewModel = DetailsViewModel()
-    let viewModel2 = CharactersViewModel()
     
     override func viewWillAppear(_ animated: Bool) {
         //setupUI()
+        tableView.isHidden = true
     }
     
     override func viewDidLoad() {
@@ -33,6 +36,9 @@ class DetailsView: UIViewController {
         print(viewModel.characterId)
 
         print(viewModel.episodeArray)
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "EpisodeCell", bundle: nil), forCellReuseIdentifier: EpisodeCell.identifier)
+        
         
     }
     
@@ -46,17 +52,41 @@ class DetailsView: UIViewController {
         detailImageView.layer.cornerRadius = 20
         detailImageView.loadImage(from: viewModel.detailImage)
         title = viewModel.singleChar?.name ?? "Unknown"
+        tableView.layer.cornerRadius = 6
+        tableView.layer.masksToBounds = true
+        viewModel.getEpisodes()
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func episodeButtonTapped(_ sender: UIButton) {
+        if isCollapsed{
+            episodesButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+            isCollapsed = false
+            tableView.isHidden = false
+        }else {
+            episodesButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+            isCollapsed = true
+            tableView.isHidden = true
+            
+        }
+        print(viewModel.array.count)
     }
-    */
 
+}
+
+extension DetailsView : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.array.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: EpisodeCell.identifier, for: indexPath) as! EpisodeCell
+        cell.backgroundColor = UIColor.systemGray6
+        cell.tintColor = UIColor.systemGray6
+        cell.episodeNameLabel.text = viewModel.array[indexPath.row].name ?? ""
+        cell.episodeLabel.text = viewModel.array[indexPath.row].episode ?? ""
+        return cell
+    }
+    
+    
 }

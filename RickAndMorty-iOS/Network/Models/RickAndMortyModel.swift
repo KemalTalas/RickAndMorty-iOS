@@ -11,6 +11,8 @@ struct AllCharacters : Codable{
     let results : [SingleCharacter]?
     let info : Info?
     let error : String?
+    let name : String?
+    let episode : String?
 }
 
 struct SingleCharacter : Codable {

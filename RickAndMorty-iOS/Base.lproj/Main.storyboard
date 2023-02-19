@@ -65,7 +65,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="dLL-Lh-1rf">
+                            <stackView opaque="NO" contentMode="center" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dLL-Lh-1rf">
                                 <rect key="frame" x="20" y="113" width="363" height="705"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="uk9-Ga-Npi">
@@ -112,18 +112,47 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="PvO-dG-Xwg"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="ZgF-fy-fjR"/>
                                         </constraints>
                                     </stackView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="awO-yg-5zB">
-                                        <rect key="frame" x="0.0" y="214" width="363" height="491"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </tableView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="WrU-p1-E7D">
+                                        <rect key="frame" x="0.0" y="200" width="363" height="505"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bv2-mY-2nv">
+                                                <rect key="frame" x="0.0" y="0.0" width="363" height="60"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="zHN-BT-YNK"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="chevron.up" catalog="system" imagePlacement="trailing" title="Episodes">
+                                                    <backgroundConfiguration key="background" cornerRadius="5">
+                                                        <color key="backgroundColor" systemColor="tertiaryLabelColor"/>
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="episodeButtonTapped:" destination="0H8-Qg-rGU" eventType="touchUpInside" id="xdp-rp-XOh"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-2j-WHE">
+                                                <rect key="frame" x="0.0" y="60" width="363" height="445"/>
+                                                <subviews>
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="awO-yg-5zB">
+                                                        <rect key="frame" x="0.0" y="0.0" width="363" height="445"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    </tableView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="awO-yg-5zB" firstAttribute="top" secondItem="hgM-2j-WHE" secondAttribute="top" id="Ci8-Kq-u8b"/>
+                                                    <constraint firstAttribute="trailing" secondItem="awO-yg-5zB" secondAttribute="trailing" id="nZO-fx-T5a"/>
+                                                    <constraint firstItem="awO-yg-5zB" firstAttribute="leading" secondItem="hgM-2j-WHE" secondAttribute="leading" id="seH-w2-5kr"/>
+                                                    <constraint firstAttribute="bottom" secondItem="awO-yg-5zB" secondAttribute="bottom" id="yeO-Fa-mPb"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="awO-yg-5zB" firstAttribute="leading" secondItem="dLL-Lh-1rf" secondAttribute="leading" id="8OL-Jb-Ql0"/>
-                                    <constraint firstAttribute="trailing" secondItem="awO-yg-5zB" secondAttribute="trailing" id="Tiq-S0-QmE"/>
-                                    <constraint firstAttribute="bottom" secondItem="awO-yg-5zB" secondAttribute="bottom" id="rl6-FR-yeI"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KsM-DU-jbC"/>
@@ -138,6 +167,7 @@
                     <navigationItem key="navigationItem" id="yIv-x4-WDp"/>
                     <connections>
                         <outlet property="detailImageView" destination="nQT-5R-NBJ" id="fWZ-hr-ub2"/>
+                        <outlet property="episodesButton" destination="Bv2-mY-2nv" id="1mh-kK-kRF"/>
                         <outlet property="genderLabel" destination="gVo-ps-aw8" id="baO-VR-HUs"/>
                         <outlet property="locationLabel" destination="jRX-QM-pA7" id="ql7-Ek-Usa"/>
                         <outlet property="originLabel" destination="fZe-LZ-VKE" id="sMN-Tl-cqX"/>
@@ -170,8 +200,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.up" catalog="system" width="128" height="70"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
